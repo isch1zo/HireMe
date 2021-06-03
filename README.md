@@ -1,4 +1,4 @@
-# أزعجني لين توظفني
+# أزعجني لين تدربني
 
 Automatic mails sender with attachments
 
