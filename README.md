@@ -1,2 +1,2 @@
-# eZ3jny_leen_Twadphny
+# أزعجني لين توظفني
 automatic mails sender with attachments
