@@ -1,2 +1,5 @@
 # أزعجني لين توظفني
-automatic mails sender with attachments
+
+Automatic mails sender with attachments
+
+شرح الاداة هنا :
