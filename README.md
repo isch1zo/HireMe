@@ -1,4 +1,4 @@
-# أزعجني لين تدربني
+# Hire Me tool
 
 Automatic mails sender with attachments.
 
