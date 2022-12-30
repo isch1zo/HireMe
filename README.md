@@ -2,11 +2,15 @@
 
 Automatic mails sender with attachments.
 
-Note: You need to have gmail account & and you need to turn on "Less secure app access" setting from Security Settings.
+Note: Before You use the tool, you need to have gmail account and do the following:
+1- Enable 2-Step Verification from Security Settings On your Gmail Account.
+![1_enable_mail](https://user-images.githubusercontent.com/42019491/210088979-d942b76c-d986-429b-96fe-d82abedb9b9a.png)
+![2_enable_mail](https://user-images.githubusercontent.com/42019491/210088986-9f436569-cbbd-4bdb-afd1-684cce5020a7.png)
 
-![image](https://user-images.githubusercontent.com/42019491/120665621-9f322680-c494-11eb-9148-70f9eb84125c.png)
+2- Generate app password for the script.
+![3_enable_mail](https://user-images.githubusercontent.com/42019491/210089004-ef09ef91-8f59-4ca3-b7da-99b9c9613dec.png)
+![4_enable_mail](https://user-images.githubusercontent.com/42019491/210089037-de25f40c-6404-4f55-a9a5-cda2aa738fee.png)
+![5_enable_mail](https://user-images.githubusercontent.com/42019491/210089046-7a1d286b-0433-4839-ab07-d33e5c73143b.png)
 
-![image](https://user-images.githubusercontent.com/42019491/120665757-bcff8b80-c494-11eb-8e02-ce4dd3c8eac5.png)
-
-The email will be recieved like this:
-![image](https://user-images.githubusercontent.com/42019491/120665868-d1dc1f00-c494-11eb-8edf-1d86035a4485.png)
+3- Get the password and use it as "App Key password" on the tool.
+![6_enable_mail](https://user-images.githubusercontent.com/42019491/210089061-f71a760c-72c4-4f8d-a74f-3c9eef57539f.png)
