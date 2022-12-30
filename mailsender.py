@@ -7,7 +7,7 @@ from email import encoders
 from email.message import EmailMessage
 
 
-def send_mail(login, password, subject, cv_path, receiver_address):
+def send_mail(sender_address, sender_pass, subject, cv_path, receiver_address):
 
     # Mail Content FIX THIS
     mail_content = """
@@ -24,10 +24,6 @@ def send_mail(login, password, subject, cv_path, receiver_address):
     [Contact Number]
     [Email]
     """
-
-    # The mail addresses and password
-    sender_address = login
-    sender_pass = password
 
     # Setup the MIME
     message = MIMEMultipart()
@@ -47,7 +43,7 @@ def send_mail(login, password, subject, cv_path, receiver_address):
         part.add_header('Content-Disposition', "attachment; filename= %s" % basename(cv_path))
         message.attach(part)
 
-
+    # Sending the e-mail
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
         server.login(sender_address, sender_pass)
@@ -55,12 +51,14 @@ def send_mail(login, password, subject, cv_path, receiver_address):
         print(f"[+] Email sent to: {receiver_address}")
 
 if __name__ == "__main__":
-    login = input("Enter Your Email: ")
-    password = input("Enter App Key password: ")
+    sender_address = input("Enter Your Email: ")
+    sender_pass = input("Enter App Key password: ")
     subject = input("Enter subject: ")
     cv_path = input("Enter CV path: ")
     mails = input("Enter Mails list file path: ")
     mails_file = open(mails, "r")
+
+    
     for mail in mails_file:
-        send_mail(login, password, subject, cv_path, mail)
+        send_mail(sender_address, sender_pass, subject, cv_path, mail)
         time.sleep(3)
