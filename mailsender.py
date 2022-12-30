@@ -1,96 +1,66 @@
-import time
-import smtplib
+import time, smtplib, mimetypes, ssl
 from os.path import basename
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email import encoders
-import mimetypes
+from email.message import EmailMessage
 
 
+def send_mail(login, password, subject, cv_path, receiver_address):
 
-def send_mail(mail,CV,letter):
+    # Mail Content FIX THIS
+    mail_content = """
+    Hello HR Team,
 
-    # mail text content
-    mail_content = '''
-Dear HR Team, 
+    I wish to apply for the position of [Name of the Position] that is listed on your website. The role and the responsibilities listed in the job description match my interests and skills. I believe that I’m a good candidate for this position.
 
-I am writing this email to express my interest in having my summer training in your company.
+    I have attached my resume. I hope they can help you learn more about my background, my qualifications, and my experience.
 
-I am Senior Computer Science student from [Your University name] with a major GPA: [Your major GPA] interested in the [Your interest field] field. I have professional certifications in the field such as:[List Your certs here], and others. Moreover, [Addition part if needed]
+    Thank you for your valuable time. I’m optimistic that you’ll consider me for this role. I look forward to hearing from you about this job opportunity.
+    
+    Sincerely,
+    [Your Name]
+    [Contact Number]
+    [Email]
+    """
 
-I am confident that my skills would be put to good use at your company, and I would enjoy the opportunity to work with you and collaborate with your team.
+    # The mail addresses and password
+    sender_address = login
+    sender_pass = password
 
-For more information, you will find my CV and eligibility letter in the attachments.
-
-Thanks for considering my application, I look forward to hearing from you.
-
-Best Regards,
-[Your name]
-Senior Computer Science Student,
-[Your University name]
-phone number: [Your phone number]
-    '''
-
-    #The mail addresses and password
-    sender_address = 'YOUR GMAIL ACCOUNT'
-    sender_pass = "YOUR GMAIL PASSWORD"
-
-    # reciever mail will be gotten from the file and passed as function argument
-    receiver_address = mail 
-
-    #Setup the MIME
+    # Setup the MIME
     message = MIMEMultipart()
     message['From'] = sender_address
     message['To'] = receiver_address
-    message['Subject'] = '[Summer Training]'   #The subject line CHANGE THIS IF YOU NEED
+    message['Subject'] = subject
 
-    #The body and the attachments for the mail
+    # The body and the attachments for the mail
     message.attach(MIMEText(mail_content, 'plain'))
     
-
-    # ATTACH THE CV FILE 
-    #attach_file_name = 'CV.pdf'
-    attach_file_name = CV
-    with open(attach_file_name, "rb") as fil:
-        content_type = mimetypes.guess_type(attach_file_name)[0].split("/")
+    # Attach the CV file 
+    with open(cv_path, "rb") as fil:
+        content_type = mimetypes.guess_type(cv_path)[0].split("/")
         part = MIMEBase(content_type[0], content_type[1])
         part.set_payload(fil.read())
         encoders.encode_base64(part)
-        part.add_header('Content-Disposition', "attachment; filename= %s" % basename(attach_file_name))
+        part.add_header('Content-Disposition', "attachment; filename= %s" % basename(cv_path))
         message.attach(part)
 
-    # ATTACH THE LETTER FILE 
-    #attach_file2_name = 'letter.pdf'
-    attach_file2_name = letter
-    with open(attach_file2_name, "rb") as fil2:
-        content_type = mimetypes.guess_type(attach_file2_name)[0].split("/")
-        part2 = MIMEBase(content_type[0], content_type[1])
-        part2.set_payload(fil2.read())
-        encoders.encode_base64(part2)
-        part2.add_header('Content-Disposition', "attachment; filename= %s" % basename(attach_file2_name))
-        message.attach(part2)
 
-
-    #Create SMTP session for sending the mail
-    session = smtplib.SMTP('smtp.gmail.com', 587)
-    session.starttls() # enable tls security
-    session.login(sender_address, sender_pass)  #login with mail and password
-    text = message.as_string()
-    session.sendmail(sender_address, receiver_address, text)
-    session.quit()
-    print("Mail Sent")
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+        server.login(sender_address, sender_pass)
+        server.send_message(message, from_addr=sender_address, to_addrs=receiver_address)
+        print(f"[+] Email sent to: {receiver_address}")
 
 if __name__ == "__main__":
-
-    # Enter the mail list file
-    #mails = "mails.txt"
-    mails = input("Enter mails file: ")
-    CV = input("Enter CV file path: ")
-    letter = input("Enter Letter file path: ")
-    mails_file = open(mails,"r")
+    login = input("Enter Your Email: ")
+    password = input("Enter App Key password: ")
+    subject = input("Enter subject: ")
+    cv_path = input("Enter CV path: ")
+    mails = input("Enter Mails list file path: ")
+    mails_file = open(mails, "r")
     for mail in mails_file:
-        print("[+] Sending Email to: "+mail)
-        send_mail(mail,CV,letter)
+        send_mail(login, password, subject, cv_path, mail)
         time.sleep(3)
-
